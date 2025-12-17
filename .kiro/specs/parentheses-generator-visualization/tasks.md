@@ -1,0 +1,138 @@
+# Implementation Plan
+
+- [x] 1. Set up project structure and dependencies
+  - [x] 1.1 Initialize React + TypeScript project with Vite
+    - Create Vite project with React and TypeScript template
+    - Configure port 37871 in vite.config.ts
+    - _Requirements: 5.1_
+  - [x] 1.2 Install and configure dependencies
+    - Install D3.js, fast-check, vitest
+    - Configure vitest for unit and property testing
+    - _Requirements: 2.3_
+  - [x] 1.3 Set up project folder structure
+    - Create folders: components/, hooks/, utils/, types/
+    - Create index files for each module
+    - _Requirements: All_
+
+- [x] 2. Implement core data types and algorithm engine
+  - [x] 2.1 Define TypeScript interfaces and types
+    - Create types/index.ts with TreeNode, GenerationStep, AnimationState interfaces
+    - _Requirements: 2.1, 2.2, 4.1_
+  - [x] 2.2 Implement input validation utility
+    - Create utils/validation.ts with validateN function
+    - Accept integers 1-8, reject others with error message
+    - _Requirements: 1.1, 1.2_
+  - [x] 2.3 Write property test for input validation
+    - **Property 1: Input Validation Range**
+    - **Validates: Requirements 1.1, 1.2**
+  - [x] 2.4 Implement parentheses generation algorithm
+    - Create utils/algorithm.ts with generateParentheses function
+    - Implement backtracking algorithm that records each step
+    - Return array of GenerationStep objects
+    - _Requirements: 2.1, 2.2, 4.1, 4.2_
+  - [x] 2.5 Write property test for algorithm correctness
+    - **Property 9: Results Collection Completeness**
+    - **Validates: Requirements 4.3, 4.4**
+  - [x] 2.6 Implement tree builder utility
+    - Create utils/treeBuilder.ts to construct TreeNode from steps
+    - Implement getNodeById lookup function
+    - _Requirements: 2.2, 2.3_
+  - [x] 2.7 Write property test for tree structure integrity
+    - **Property 3: Tree Structure Integrity**
+    - **Validates: Requirements 2.2**
+  - [x] 2.8 Write property test for node status correctness
+    - **Property 4: Node Status Correctness**
+    - **Validates: Requirements 2.4, 2.5**
+
+- [x] 3. Checkpoint - Ensure core algorithm tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 4. Implement state management and animation controller
+  - [x] 4.1 Create useAlgorithm hook
+    - Implement hook to manage algorithm state (n, steps, results)
+    - Handle initialization and reset logic
+    - _Requirements: 1.3, 4.3, 4.4_
+  - [x] 4.2 Write property test for state reset
+    - **Property 2: State Reset on New Input**
+    - **Validates: Requirements 1.3**
+  - [x] 4.3 Create useAnimation hook
+    - Implement animation state management (play, pause, step, speed)
+    - Handle timer for automatic playback
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
+  - [x] 4.4 Write property test for step advancement
+    - **Property 5: Step Advancement Consistency**
+    - **Validates: Requirements 3.3**
+  - [x] 4.5 Write property test for reset state equivalence
+    - **Property 6: Reset State Equivalence**
+    - **Validates: Requirements 3.4**
+  - [x] 4.6 Write property test for speed bounds
+    - **Property 7: Speed Bounds Enforcement**
+    - **Validates: Requirements 3.5**
+
+- [x] 5. Checkpoint - Ensure state management tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 6. Implement UI components
+  - [x] 6.1 Implement InputPanel component
+    - Create number input with validation feedback
+    - Submit button to trigger generation
+    - _Requirements: 1.1, 1.2, 1.3_
+  - [x] 6.2 Implement ControlPanel component
+    - Play, pause, step forward, reset buttons
+    - Speed slider (100ms - 2000ms)
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
+  - [x] 6.3 Implement StatePanel component
+    - Display current partial string
+    - Show remaining left/right bracket counts
+    - _Requirements: 4.1, 4.2_
+  - [x] 6.4 Write property test for state display synchronization
+    - **Property 8: Step State Display Synchronization**
+    - **Validates: Requirements 4.1, 4.2**
+  - [x] 6.5 Implement ResultsPanel component
+    - Display list of valid combinations found
+    - Show total count when complete
+    - _Requirements: 4.3, 4.4_
+  - [x] 6.6 Implement CodePanel component
+    - Display backtracking algorithm pseudocode
+    - Highlight current executing line
+    - Show call stack depth indicator
+    - _Requirements: 6.1, 6.2, 6.3_
+  - [x] 6.7 Write property test for code panel synchronization
+    - **Property 10: Code Panel State Synchronization**
+    - **Validates: Requirements 6.2, 6.3**
+
+- [x] 7. Implement D3.js tree visualization
+  - [x] 7.1 Create TreeVisualization component
+    - Set up D3.js SVG container with React ref
+    - Implement tree layout calculation
+    - _Requirements: 2.3_
+  - [x] 7.2 Implement node and edge rendering
+    - Render nodes with current bracket value
+    - Draw edges connecting parent-child nodes
+    - _Requirements: 2.2, 2.3_
+  - [x] 7.3 Implement node status styling
+    - Success color for valid complete combinations
+    - Pruned style for invalid paths
+    - Exploring style for current node
+    - _Requirements: 2.4, 2.5_
+  - [x] 7.4 Implement zoom and pan functionality
+    - Add D3 zoom behavior for large trees
+    - Handle viewport constraints
+    - _Requirements: 5.3_
+
+- [x] 8. Integrate all components in App
+  - [x] 8.1 Create responsive single-page layout
+    - Implement CSS Grid/Flexbox layout
+    - Ensure all components fit within viewport
+    - _Requirements: 5.1, 5.2_
+  - [x] 8.2 Wire up state and event handlers
+    - Connect hooks to components
+    - Implement animation loop with step updates
+    - _Requirements: All_
+  - [x] 8.3 Handle window resize
+    - Update tree visualization dimensions on resize
+    - Maintain layout proportions
+    - _Requirements: 5.2_
+
+- [x] 9. Final Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
