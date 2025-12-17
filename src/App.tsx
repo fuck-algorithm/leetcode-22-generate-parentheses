@@ -5,6 +5,7 @@ import { TreeVisualization } from './components/TreeVisualization';
 import { StatePanel } from './components/StatePanel';
 import { CodePanel } from './components/CodePanel';
 import { ResultsPanel } from './components/ResultsPanel';
+import { AlgorithmGuide } from './components/AlgorithmGuide';
 import { useAlgorithm } from './hooks/useAlgorithm';
 import { useAnimation } from './hooks/useAnimation';
 import { updateTreeStatus } from './utils/treeBuilder';
@@ -125,13 +126,20 @@ function App() {
           />
         </div>
 
-        <div id="tree-container" style={styles.treeContainer}>
-          <TreeVisualization
-            treeData={algorithm.treeData}
-            currentNodeId={currentStep?.nodeId || null}
-            width={dimensions.width}
-            height={dimensions.height}
+        <div style={styles.rightPanel}>
+          <AlgorithmGuide 
+            n={algorithm.n} 
+            currentAction={currentStep?.action}
           />
+          <div id="tree-container" style={styles.treeContainer}>
+            <TreeVisualization
+              treeData={algorithm.treeData}
+              currentNodeId={currentStep?.nodeId || null}
+              width={dimensions.width}
+              height={dimensions.height}
+              currentAction={currentStep?.action}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -178,6 +186,13 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: 'column',
     gap: '12px',
     flexShrink: 0
+  },
+  rightPanel: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    minWidth: 0
   },
   treeContainer: {
     flex: 1,
