@@ -7,155 +7,227 @@ interface AlgorithmGuideProps {
 }
 
 export function AlgorithmGuide({ n, currentAction }: AlgorithmGuideProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div style={styles.container}>
-      <div style={styles.header} onClick={() => setIsExpanded(!isExpanded)}>
-        <h3 style={styles.title}>
-          <span>📖</span>
-          <span>算法原理</span>
-        </h3>
-        <span style={{
-          ...styles.toggleIcon,
-          transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
-        }}>
-          ▼
-        </span>
+      <div style={styles.mainHeader}>
+        <span style={styles.mainIcon}>📖</span>
+        <span style={styles.mainTitle}>算法思路</span>
       </div>
 
-      {isExpanded && (
-        <div style={styles.content}>
-          {/* 核心思想 */}
-          <div style={styles.section}>
-            <div style={styles.sectionTitle}>
-              <span>💡</span>
-              <span>核心思想</span>
-            </div>
-            <p style={styles.paragraph}>
-              使用<span style={styles.highlight}>回溯算法</span>生成所有有效的括号组合。
-              通过递归尝试添加左括号或右括号，并在不满足条件时回溯。
-            </p>
-          </div>
-
-          {/* 关键规则 */}
-          <div style={styles.section}>
-            <div style={styles.sectionTitle}>
-              <span>📋</span>
-              <span>关键规则</span>
-            </div>
-            <div style={styles.keyPoint}>
-              <span style={styles.keyPointIcon}>1️⃣</span>
-              <span style={styles.keyPointText}>
-                <strong>左括号优先：</strong>只要还有剩余的左括号（left {'>'} 0），就可以添加左括号
-              </span>
-            </div>
-            <div style={styles.keyPoint}>
-              <span style={styles.keyPointIcon}>2️⃣</span>
-              <span style={styles.keyPointText}>
-                <strong>右括号限制：</strong>只有当已使用的左括号多于右括号时（right {'>'} left），才能添加右括号
-              </span>
-            </div>
-            <div style={styles.keyPoint}>
-              <span style={styles.keyPointIcon}>3️⃣</span>
-              <span style={styles.keyPointText}>
-                <strong>终止条件：</strong>当 left = 0 且 right = 0 时，找到一个有效组合
-              </span>
-            </div>
-          </div>
-
-          {/* 执行步骤 */}
-          <div style={styles.section}>
-            <div style={styles.sectionTitle}>
-              <span>🔄</span>
-              <span>执行步骤</span>
-            </div>
-            <div style={styles.stepsContainer}>
-              <StepItem 
-                number={1} 
-                text="检查是否完成：left=0 且 right=0 → 保存结果"
-                isActive={currentAction === 'complete'}
-              />
-              <StepItem 
-                number={2} 
-                text="尝试添加左括号：如果 left > 0，递归调用 backtrack(cur+'(', left-1, right)"
-                isActive={currentAction === 'add_left'}
-              />
-              <StepItem 
-                number={3} 
-                text="回溯：从添加左括号的分支返回"
-                isActive={currentAction === 'backtrack'}
-              />
-              <StepItem 
-                number={4} 
-                text="尝试添加右括号：如果 right > left，递归调用 backtrack(cur+')', left, right-1)"
-                isActive={currentAction === 'add_right'}
-              />
-              <StepItem 
-                number={5} 
-                text="回溯：从添加右括号的分支返回"
-                isActive={currentAction === 'backtrack'}
-              />
-            </div>
-          </div>
-
-          {/* 结果数量 */}
-          <div style={styles.section}>
-            <div style={styles.sectionTitle}>
-              <span>📊</span>
-              <span>结果数量</span>
-            </div>
-            <p style={styles.paragraph}>
-              n 对括号的有效组合数量由<strong>卡特兰数</strong>决定：
-            </p>
-            <div style={styles.formula}>
-              <span>C(n) = (2n)! / ((n+1)! × n!)</span>
-              <span style={{ color: '#666' }}>|</span>
-              <span>n={n} → C({n}) = {catalanNumber(n)} 种组合</span>
-            </div>
-          </div>
-
-          {/* 树形图例 */}
-          <div style={styles.section}>
-            <div style={styles.sectionTitle}>
-              <span>🎨</span>
-              <span>树形图例</span>
-            </div>
-            <div style={styles.legendContainer}>
-              <LegendItem color="#e0e0e0" label="待探索" />
-              <LegendItem color="#2196F3" label="当前节点" />
-              <LegendItem color="#4CAF50" label="有效路径" />
-              <LegendItem color="#FF9800" label="正在回溯" />
-              <LegendItem color="#9E9E9E" label="已回溯" />
-            </div>
-          </div>
+      {/* 简洁概要 */}
+      <div style={styles.summaryBox}>
+        <div style={styles.summaryItem}>
+          <span style={styles.summaryLabel}>算法</span>
+          <span style={styles.summaryValue}>回溯法</span>
         </div>
+        <div style={styles.summaryItem}>
+          <span style={styles.summaryLabel}>n 值</span>
+          <span style={styles.summaryValue}>{n}</span>
+        </div>
+        <div style={styles.summaryItem}>
+          <span style={styles.summaryLabel}>有效组合</span>
+          <span style={styles.summaryValue}>{catalanNumber(n)}</span>
+        </div>
+      </div>
+
+      {/* 核心规则简述 */}
+      <div style={styles.rulesPreview}>
+        <div style={styles.rulePreviewItem}>
+          <span style={styles.ruleIcon}>1️⃣</span>
+          <span>左括号: open &lt; {n}</span>
+        </div>
+        <div style={styles.rulePreviewItem}>
+          <span style={styles.ruleIcon}>2️⃣</span>
+          <span>右括号: close &lt; open</span>
+        </div>
+        <div style={styles.rulePreviewItem}>
+          <span style={styles.ruleIcon}>3️⃣</span>
+          <span>完成: length = {n * 2}</span>
+        </div>
+      </div>
+
+      {/* 查看详情按钮 */}
+      <button style={styles.detailButton} onClick={() => setShowModal(true)}>
+        💡 查看详细解题思路
+      </button>
+
+      {/* 当前状态指示 */}
+      {currentAction && (
+        <div style={{
+          ...styles.currentAction,
+          backgroundColor: getActionColor(currentAction)
+        }}>
+          <span style={styles.actionIcon}>{getActionIcon(currentAction)}</span>
+          <span style={styles.actionText}>{getActionText(currentAction)}</span>
+        </div>
+      )}
+
+      {/* 弹窗 */}
+      {showModal && (
+        <DetailModal n={n} onClose={() => setShowModal(false)} />
       )}
     </div>
   );
 }
 
-function StepItem({ number, text, isActive }: { number: number; text: string; isActive?: boolean }) {
+function DetailModal({ n, onClose }: { n: number; onClose: () => void }) {
   return (
-    <div style={{
-      ...styles.step,
-      backgroundColor: isActive ? '#e3f2fd' : '#f9f9f9',
-      borderLeftColor: isActive ? '#1976d2' : '#ddd'
-    }}>
-      <span style={{
-        ...styles.stepNumber,
-        backgroundColor: isActive ? '#1976d2' : '#9e9e9e'
-      }}>{number}</span>
-      <span style={styles.stepText}>{text}</span>
+    <div style={styles.modalOverlay} onClick={onClose}>
+      <div style={styles.modalContent} onClick={e => e.stopPropagation()}>
+        <div style={styles.modalHeader}>
+          <span style={styles.modalTitle}>📖 详细解题思路</span>
+          <button style={styles.closeButton} onClick={onClose}>✕</button>
+        </div>
+        
+        <div style={styles.modalBody}>
+          {/* 核心思想 */}
+          <div style={styles.modalSection}>
+            <h3 style={styles.modalSectionTitle}>💡 核心思想</h3>
+            <div style={styles.ideaBox}>
+              <p style={styles.ideaText}>
+                <strong>回溯算法</strong> = 递归 + 剪枝
+              </p>
+              <p style={styles.ideaSubtext}>
+                通过递归尝试所有可能的括号组合，在发现无效路径时立即回溯，避免无效搜索。
+              </p>
+            </div>
+            
+            <div style={styles.analogyBox}>
+              <div style={styles.analogyTitle}>🌳 类比理解</div>
+              <p style={styles.analogyText}>
+                想象你在走迷宫：每个岔路口你可以选择"添加左括号"或"添加右括号"。
+                如果走到死胡同（右括号比左括号多），就退回上一个岔路口，尝试另一条路。
+              </p>
+            </div>
+          </div>
+
+          {/* 关键规则 */}
+          <div style={styles.modalSection}>
+            <h3 style={styles.modalSectionTitle}>📋 关键规则</h3>
+            <RuleItem
+              number={1}
+              title="左括号优先"
+              description="只要还有剩余的左括号，就可以添加"
+              condition="open < max"
+              color="#2196F3"
+            />
+            <RuleItem
+              number={2}
+              title="右括号限制"
+              description="只有当已用的左括号多于右括号时，才能添加右括号"
+              condition="close < open"
+              color="#4CAF50"
+            />
+            <RuleItem
+              number={3}
+              title="终止条件"
+              description="字符串长度达到 2n 时，找到一个有效组合"
+              condition="current.length == max * 2"
+              color="#FF9800"
+            />
+          </div>
+
+          {/* 执行流程 */}
+          <div style={styles.modalSection}>
+            <h3 style={styles.modalSectionTitle}>🔄 执行流程</h3>
+            <div style={styles.flowChart}>
+              <FlowStep step="1" text="检查是否完成" detail="length == 2n?" />
+              <div style={styles.flowArrow}>↓</div>
+              <FlowStep step="2" text="尝试添加 (" detail="if open < max" />
+              <div style={styles.flowArrow}>↓</div>
+              <FlowStep step="3" text="递归探索" detail="backtrack(...)" />
+              <div style={styles.flowArrow}>↓</div>
+              <FlowStep step="4" text="回溯删除" detail="deleteCharAt" />
+              <div style={styles.flowArrow}>↓</div>
+              <FlowStep step="5" text="尝试添加 )" detail="if close < open" />
+            </div>
+          </div>
+
+          {/* 树形理解 */}
+          <div style={styles.modalSection}>
+            <h3 style={styles.modalSectionTitle}>🌲 树形理解</h3>
+            <div style={styles.treeExplain}>
+              <p style={styles.treeText}>
+                <strong>树的每一层</strong>代表一次决策：添加 ( 或 )
+              </p>
+              <p style={styles.treeText}>
+                <strong>从根到叶子的路径</strong>就是一个括号组合
+              </p>
+              <p style={styles.treeText}>
+                <strong>绿色叶子节点</strong>表示有效的括号组合
+              </p>
+            </div>
+            
+            <div style={styles.statsBox}>
+              <div style={styles.statItem}>
+                <span style={styles.statLabel}>n 值</span>
+                <span style={styles.statValue}>{n}</span>
+              </div>
+              <div style={styles.statItem}>
+                <span style={styles.statLabel}>有效组合数</span>
+                <span style={styles.statValue}>{catalanNumber(n)}</span>
+              </div>
+              <div style={styles.statItem}>
+                <span style={styles.statLabel}>字符串长度</span>
+                <span style={styles.statValue}>{n * 2}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-function LegendItem({ color, label }: { color: string; label: string }) {
+function RuleItem({ 
+  number, 
+  title, 
+  description, 
+  condition, 
+  color 
+}: { 
+  number: number; 
+  title: string; 
+  description: string; 
+  condition: string;
+  color: string;
+}) {
   return (
-    <div style={styles.legendItem}>
-      <span style={{ ...styles.legendDot, backgroundColor: color }} />
-      <span>{label}</span>
+    <div style={{
+      ...styles.ruleItem,
+      borderLeftColor: color,
+    }}>
+      <div style={styles.ruleHeader}>
+        <span style={{
+          ...styles.ruleNumber,
+          backgroundColor: color
+        }}>{number}</span>
+        <span style={styles.ruleTitle}>{title}</span>
+      </div>
+      <p style={styles.ruleDesc}>{description}</p>
+      <code style={styles.ruleCode}>{condition}</code>
+    </div>
+  );
+}
+
+function FlowStep({ 
+  step, 
+  text, 
+  detail 
+}: { 
+  step: string; 
+  text: string; 
+  detail: string; 
+}) {
+  return (
+    <div style={styles.flowStep}>
+      <span style={styles.flowStepNum}>{step}</span>
+      <div style={styles.flowStepContent}>
+        <span style={styles.flowStepText}>{text}</span>
+        <span style={styles.flowStepDetail}>{detail}</span>
+      </div>
     </div>
   );
 }
@@ -167,4 +239,34 @@ function catalanNumber(n: number): number {
     result = result * 2 * (2 * i + 1) / (i + 2);
   }
   return Math.round(result);
+}
+
+function getActionIcon(action: string): string {
+  switch (action) {
+    case 'add_left': return '➕';
+    case 'add_right': return '➕';
+    case 'complete': return '✅';
+    case 'backtrack': return '↩️';
+    default: return '▶️';
+  }
+}
+
+function getActionText(action: string): string {
+  switch (action) {
+    case 'add_left': return '正在添加左括号 (';
+    case 'add_right': return '正在添加右括号 )';
+    case 'complete': return '找到有效组合！';
+    case 'backtrack': return '回溯中...';
+    default: return '执行中';
+  }
+}
+
+function getActionColor(action: string): string {
+  switch (action) {
+    case 'add_left': return '#e3f2fd';
+    case 'add_right': return '#e8f5e9';
+    case 'complete': return '#fff3e0';
+    case 'backtrack': return '#fff8e1';
+    default: return '#f5f5f5';
+  }
 }

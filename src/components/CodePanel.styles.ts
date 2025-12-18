@@ -2,13 +2,14 @@ import React from 'react';
 
 export const styles: Record<string, React.CSSProperties> = {
   container: {
-    padding: '12px',
+    padding: '10px',
     backgroundColor: '#1e1e1e',
     borderRadius: '8px',
     boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
     fontFamily: 'Consolas, Monaco, "Courier New", monospace',
-    fontSize: '12px',
-    color: '#d4d4d4'
+    fontSize: '11px',
+    color: '#d4d4d4',
+    overflow: 'hidden'
   },
   header: {
     display: 'flex',
@@ -50,9 +51,9 @@ export const styles: Record<string, React.CSSProperties> = {
   code: {
     margin: 0,
     padding: 0,
-    lineHeight: 1.5,
+    lineHeight: 1.4,
     overflow: 'auto',
-    maxHeight: '200px'
+    maxHeight: '160px'
   },
   line: {
     display: 'flex',

@@ -136,3 +136,77 @@
 
 - [x] 9. Final Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 10. Enhance CodePanel with Java code and debugger-style features
+  - [x] 10.1 Update GenerationStep type with enhanced variables
+    - Add `variables` object with current, open, close, max, resultSnapshot fields
+    - Add `changedVariable` field to track which variable changed
+    - Update algorithm.ts to populate these fields during step generation
+    - _Requirements: 6.4, 6.5, 8.2, 8.3, 8.4, 8.5_
+  - [x] 10.2 Create VariablesState interface and update CodePanel props
+    - Define VariablesState interface in types/index.ts
+    - Update CodePanelProps to include variables and showVariablesPanel
+    - _Requirements: 6.4, 8.1_
+  - [x] 10.3 Implement Java code display with syntax highlighting
+    - Replace pseudocode with complete Java Solution class code
+    - Add syntax highlighting styles for Java keywords, strings, comments
+    - Ensure code panel occupies at least 30% of screen width
+    - _Requirements: 6.1, 6.2_
+  - [x] 10.4 Implement line-by-line highlighting with debugger style
+    - Add distinct background color for currently executing line
+    - Update code line mapping to match Java code structure
+    - Synchronize highlighted line with current generation step
+    - _Requirements: 6.3, 6.7_
+  - [x] 10.5 Write property test for code-tree synchronization
+    - **Property 15: Code-Tree Synchronization**
+    - **Validates: Requirements 6.7**
+  - [x] 10.6 Implement variables watch panel
+    - Create variables section below or beside code
+    - Display current StringBuilder value, open count, close count
+    - Display result ArrayList with current valid combinations
+    - Show call stack depth indicator
+    - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.7_
+  - [x] 10.7 Write property test for variables panel state accuracy
+    - **Property 14: Variables Panel State Accuracy**
+    - **Validates: Requirements 6.4, 6.5, 8.2, 8.3, 8.4, 8.5**
+  - [x] 10.8 Implement variable change highlighting
+    - Briefly highlight changed variable when value updates
+    - Use changedVariable field to determine which variable to highlight
+    - _Requirements: 8.6_
+  - [x] 10.9 Write property test for variable change highlighting
+    - **Property 16: Variable Change Highlighting**
+    - **Validates: Requirements 8.6**
+  - [x] 10.10 Write property test for call stack depth display
+    - **Property 17: Call Stack Depth Display**
+    - **Validates: Requirements 8.7**
+
+- [x] 11. Checkpoint - Ensure CodePanel enhancement tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 12. Implement node and edge annotation labels
+  - [x] 12.1 Update TreeNode type with annotation fields
+    - Add `annotation` and `pruneReason` fields to TreeNode interface
+    - Update tree builder to generate annotation text based on node state
+    - _Requirements: 7.1, 7.4, 7.5_
+  - [x] 12.2 Implement node annotation rendering
+    - Display remaining bracket counts above normal nodes (如: "L:2 R:3")
+    - Show pruning reason for pruned nodes (如: "右括号过多")
+    - Display success indicator for valid complete nodes (如: "✓ 有效")
+    - Highlight annotation text for current exploring node
+    - _Requirements: 7.1, 7.3, 7.4, 7.5_
+  - [x] 12.3 Write property test for node annotation correctness
+    - **Property 11: Node Annotation Content Correctness**
+    - **Validates: Requirements 7.1, 7.4, 7.5**
+  - [x] 12.4 Implement edge label rendering
+    - Display action label on edges (如: "添加 (" 或 "添加 )")
+    - Position labels at the midpoint of edges
+    - _Requirements: 7.2_
+  - [x] 12.5 Write property test for edge label correctness
+    - **Property 12: Edge Label Correctness**
+    - **Validates: Requirements 7.2**
+  - [x] 12.6 Write property test for current node annotation highlighting
+    - **Property 13: Current Node Annotation Highlighting**
+    - **Validates: Requirements 7.3**
+
+- [x] 13. Final Checkpoint - Ensure all annotation tests pass
+  - Ensure all tests pass, ask the user if questions arise.

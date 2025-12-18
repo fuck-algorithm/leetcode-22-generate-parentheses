@@ -5,3 +5,4 @@ export { StatePanel, getStatePanelValues } from './StatePanel';
 export { CodePanel, getCodePanelValues } from './CodePanel';
 export { ResultsPanel } from './ResultsPanel';
 export { AlgorithmGuide } from './AlgorithmGuide';
+export { CallStack } from './CallStack';

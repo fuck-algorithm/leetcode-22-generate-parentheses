@@ -30,10 +30,15 @@ export function validateN(n: number): ValidationResult {
 
 /**
  * Clamps a speed value to the valid range [100, 2000] milliseconds.
+ * Handles special values like NaN, Infinity, and negative Infinity.
  * 
  * @param speed - The speed value in milliseconds
  * @returns The clamped speed value
  */
 export function clampSpeed(speed: number): number {
+  // Handle NaN and non-finite values
+  if (!Number.isFinite(speed)) {
+    return 500; // Default to middle value
+  }
   return Math.max(100, Math.min(2000, speed));
 }

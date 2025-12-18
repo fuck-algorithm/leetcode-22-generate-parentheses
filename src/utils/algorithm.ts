@@ -16,7 +16,7 @@ export function generateParentheses(n: number): { steps: GenerationStep[]; resul
   stepCounter = 0;
   nodeCounter = 0;
 
-  // Create root node step
+  // Create root node step (entering backtrack function)
   const rootNodeId = `node-${nodeCounter++}`;
   steps.push({
     id: `step-${stepCounter++}`,
@@ -27,26 +27,38 @@ export function generateParentheses(n: number): { steps: GenerationStep[]; resul
     nodeId: rootNodeId,
     parentNodeId: null,
     isValid: true,
-    codeLine: 1,
-    callStackDepth: 0
+    codeLine: 8,  // Line: private void backtrack(...)
+    callStackDepth: 0,
+    variables: {
+      current: '',
+      open: 0,
+      close: 0,
+      max: n,
+      resultSnapshot: []
+    },
+    changedVariable: null
   });
 
-  backtrack('', n, n, steps, results, rootNodeId, 1);
+  backtrack('', 0, 0, n, steps, results, rootNodeId, 1);
 
   return { steps, results };
 }
 
 function backtrack(
   current: string,
-  leftRemaining: number,
-  rightRemaining: number,
+  open: number,      // Used left brackets
+  close: number,     // Used right brackets
+  max: number,       // n value
   steps: GenerationStep[],
   results: string[],
   parentNodeId: string,
   depth: number
 ): void {
-  // Base case: all brackets used
-  if (leftRemaining === 0 && rightRemaining === 0) {
+  const leftRemaining = max - open;
+  const rightRemaining = max - close;
+
+  // Base case: string is complete (length == max * 2)
+  if (current.length === max * 2) {
     results.push(current);
     steps.push({
       id: `step-${stepCounter++}`,
@@ -57,33 +69,51 @@ function backtrack(
       nodeId: parentNodeId,
       parentNodeId: null,
       isValid: true,
-      codeLine: 3,
-      callStackDepth: depth
+      codeLine: 10,  // Line: result.add(current.toString());
+      callStackDepth: depth,
+      variables: {
+        current,
+        open,
+        close,
+        max,
+        resultSnapshot: [...results]
+      },
+      changedVariable: 'result'
     });
     return;
   }
 
-  // Try adding left bracket
-  if (leftRemaining > 0) {
+  // Try adding left bracket (if open < max)
+  if (open < max) {
     const newNodeId = `node-${nodeCounter++}`;
     const newString = current + '(';
+    const newOpen = open + 1;
     
+    // Step for current.append('(')
     steps.push({
       id: `step-${stepCounter++}`,
       action: 'add_left',
       currentString: newString,
-      leftRemaining: leftRemaining - 1,
+      leftRemaining: max - newOpen,
       rightRemaining: rightRemaining,
       nodeId: newNodeId,
       parentNodeId: parentNodeId,
       isValid: true,
-      codeLine: 5,
-      callStackDepth: depth
+      codeLine: 15,  // Line: current.append('(');
+      callStackDepth: depth,
+      variables: {
+        current: newString,
+        open: newOpen,
+        close,
+        max,
+        resultSnapshot: [...results]
+      },
+      changedVariable: 'current'
     });
 
-    backtrack(newString, leftRemaining - 1, rightRemaining, steps, results, newNodeId, depth + 1);
+    backtrack(newString, newOpen, close, max, steps, results, newNodeId, depth + 1);
 
-    // Backtrack step
+    // Backtrack step: current.deleteCharAt(...)
     steps.push({
       id: `step-${stepCounter++}`,
       action: 'backtrack',
@@ -93,32 +123,50 @@ function backtrack(
       nodeId: parentNodeId,
       parentNodeId: null,
       isValid: true,
-      codeLine: 7,
-      callStackDepth: depth
+      codeLine: 17,  // Line: current.deleteCharAt(current.length() - 1);
+      callStackDepth: depth,
+      variables: {
+        current,
+        open,
+        close,
+        max,
+        resultSnapshot: [...results]
+      },
+      changedVariable: 'current'
     });
   }
 
-  // Try adding right bracket (only if more left brackets have been used)
-  if (rightRemaining > leftRemaining) {
+  // Try adding right bracket (if close < open)
+  if (close < open) {
     const newNodeId = `node-${nodeCounter++}`;
     const newString = current + ')';
+    const newClose = close + 1;
     
+    // Step for current.append(')')
     steps.push({
       id: `step-${stepCounter++}`,
       action: 'add_right',
       currentString: newString,
       leftRemaining: leftRemaining,
-      rightRemaining: rightRemaining - 1,
+      rightRemaining: max - newClose,
       nodeId: newNodeId,
       parentNodeId: parentNodeId,
       isValid: true,
-      codeLine: 9,
-      callStackDepth: depth
+      codeLine: 21,  // Line: current.append(')');
+      callStackDepth: depth,
+      variables: {
+        current: newString,
+        open,
+        close: newClose,
+        max,
+        resultSnapshot: [...results]
+      },
+      changedVariable: 'current'
     });
 
-    backtrack(newString, leftRemaining, rightRemaining - 1, steps, results, newNodeId, depth + 1);
+    backtrack(newString, open, newClose, max, steps, results, newNodeId, depth + 1);
 
-    // Backtrack step
+    // Backtrack step: current.deleteCharAt(...)
     steps.push({
       id: `step-${stepCounter++}`,
       action: 'backtrack',
@@ -128,8 +176,16 @@ function backtrack(
       nodeId: parentNodeId,
       parentNodeId: null,
       isValid: true,
-      codeLine: 11,
-      callStackDepth: depth
+      codeLine: 23,  // Line: current.deleteCharAt(current.length() - 1);
+      callStackDepth: depth,
+      variables: {
+        current,
+        open,
+        close,
+        max,
+        resultSnapshot: [...results]
+      },
+      changedVariable: 'current'
     });
   }
 }

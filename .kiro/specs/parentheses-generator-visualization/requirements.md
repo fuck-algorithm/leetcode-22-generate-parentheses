@@ -37,6 +37,18 @@
 4. WHEN a path leads to a valid complete combination THEN the Parentheses_Generator SHALL highlight that leaf node with a distinct success color
 5. WHEN a path is pruned (invalid) THEN the Parentheses_Generator SHALL indicate the pruned state with a distinct visual style
 
+### Requirement 7
+
+**User Story:** As a user, I want to see explanatory text labels on nodes and edges, so that I can better understand the algorithm decision process at each step.
+
+#### Acceptance Criteria
+
+1. WHEN a node is displayed THEN the Parentheses_Generator SHALL show a brief annotation above the node indicating the current state (remaining left/right bracket counts)
+2. WHEN an edge connects two nodes THEN the Parentheses_Generator SHALL display a label on the edge indicating the action taken (add left bracket or add right bracket)
+3. WHEN the current node is being explored THEN the Parentheses_Generator SHALL highlight the annotation text to draw user attention
+4. WHEN a node represents a pruned path THEN the Parentheses_Generator SHALL display a brief explanation of why the path was pruned
+5. WHEN a node represents a valid complete combination THEN the Parentheses_Generator SHALL display a success indicator annotation
+
 ### Requirement 3
 
 **User Story:** As a user, I want to control the animation playback, so that I can learn at my own pace.
@@ -72,11 +84,30 @@
 
 ### Requirement 6
 
-**User Story:** As a user, I want to see the algorithm code alongside the visualization, so that I can correlate the animation with the actual implementation.
+**User Story:** As a user, I want to see the Java algorithm code in a large right-side panel with debugging effects, so that I can understand the code execution like using a real debugger.
 
 #### Acceptance Criteria
 
-1. WHEN the visualization is displayed THEN the Parentheses_Generator SHALL show the backtracking algorithm pseudocode in a code panel
-2. WHEN a Generation_Step executes THEN the Parentheses_Generator SHALL highlight the corresponding line in the code panel
-3. WHEN the algorithm makes a recursive call THEN the Parentheses_Generator SHALL visually indicate the call stack depth
+1. WHEN the visualization is displayed THEN the Parentheses_Generator SHALL show a prominently sized code panel on the right side occupying at least 30% of the screen width
+2. WHEN the visualization is displayed THEN the Parentheses_Generator SHALL display the complete Java solution code for the parentheses generation problem with syntax highlighting
+3. WHEN a Generation_Step executes THEN the Parentheses_Generator SHALL highlight the currently executing line with a distinct background color simulating debugger breakpoint style
+4. WHEN the algorithm state changes THEN the Parentheses_Generator SHALL display a variables panel showing current memory values including the current string, left count, right count, and result list
+5. WHEN the highlighted line changes THEN the Parentheses_Generator SHALL update the variables panel to reflect the exact state at that execution point
+6. WHEN the algorithm makes a recursive call THEN the Parentheses_Generator SHALL visually indicate the call stack depth in the variables panel
+7. WHEN the user steps through the algorithm THEN the Parentheses_Generator SHALL synchronize the code line highlight with the corresponding tree node highlight
 
+
+
+### Requirement 8
+
+**User Story:** As a user, I want to see a dedicated variables watch panel that displays memory values in real-time, so that I can understand how data changes during algorithm execution.
+
+#### Acceptance Criteria
+
+1. WHEN the code panel is displayed THEN the Parentheses_Generator SHALL include a variables watch section below or beside the code
+2. WHEN displaying variables THEN the Parentheses_Generator SHALL show the current StringBuilder or String value being constructed
+3. WHEN displaying variables THEN the Parentheses_Generator SHALL show the remaining left bracket count (open) as a numeric value
+4. WHEN displaying variables THEN the Parentheses_Generator SHALL show the remaining right bracket count (close) as a numeric value
+5. WHEN displaying variables THEN the Parentheses_Generator SHALL show the result ArrayList with all completed valid combinations found so far
+6. WHEN a variable value changes THEN the Parentheses_Generator SHALL briefly highlight the changed variable to draw user attention
+7. WHEN the recursion depth changes THEN the Parentheses_Generator SHALL display the current call stack depth as a visual indicator

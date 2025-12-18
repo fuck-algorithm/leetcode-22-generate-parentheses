@@ -155,20 +155,69 @@ export function TreeVisualization({
       .attr('fill', d => getNodeColor(d.data, currentNodeId, currentAction).text)
       .text(d => d.data.value || 'ε');
 
-    // 路径标签
-    nodeGroups.filter(d => d.depth > 0)
+    // 节点注释标签背景 (annotation background)
+    nodeGroups.filter(d => !!d.data.annotation)
+      .append('rect')
+      .attr('class', 'annotation-bg')
+      .attr('y', -NODE_RADIUS - 24)
+      .attr('height', 16)
+      .attr('rx', 3)
+      .attr('ry', 3)
+      .attr('fill', d => {
+        if (d.data.id === currentNodeId) return 'rgba(25, 118, 210, 0.15)';
+        if (d.data.status === 'valid' || d.data.status === 'complete') return 'rgba(76, 175, 80, 0.15)';
+        if (d.data.status === 'pruned') return 'rgba(244, 67, 54, 0.15)';
+        return 'rgba(0, 0, 0, 0.05)';
+      })
+      .attr('stroke', d => {
+        if (d.data.id === currentNodeId) return '#1976d2';
+        if (d.data.status === 'valid' || d.data.status === 'complete') return '#4CAF50';
+        if (d.data.status === 'pruned') return '#f44336';
+        return '#ccc';
+      })
+      .attr('stroke-width', 1)
+      .each(function(d) {
+        const text = d.data.annotation || '';
+        const textWidth = text.length * 6 + 8;
+        d3.select(this)
+          .attr('x', -textWidth / 2)
+          .attr('width', textWidth);
+      });
+
+    // 节点注释标签 (annotation)
+    nodeGroups.filter(d => !!d.data.annotation)
       .append('text')
-      .attr('class', 'path-label')
-      .attr('y', -NODE_RADIUS - 8)
+      .attr('class', 'annotation-label')
+      .attr('y', -NODE_RADIUS - 12)
       .attr('text-anchor', 'middle')
       .attr('font-size', '10px')
       .attr('fill', d => {
-        if (d.data.id === currentNodeId) return '#1976d2';
-        if (d.data.status === 'complete' || d.data.status === 'valid') return '#2E7D32';
-        return '#666';
+        if (d.data.id === currentNodeId) return '#1565c0';
+        if (d.data.status === 'valid' || d.data.status === 'complete') return '#2E7D32';
+        if (d.data.status === 'pruned') return '#c62828';
+        return '#555';
       })
       .attr('font-weight', d => d.data.id === currentNodeId ? 'bold' : 'normal')
-      .text(d => d.data.path);
+      .text(d => d.data.annotation || '');
+
+    // 边标签 (edge labels)
+    const edgeLabelGroup = g.append('g').attr('class', 'edge-labels');
+    
+    edgeLabelGroup.selectAll('.edge-label')
+      .data(links.filter(d => d.target.data.value))
+      .enter()
+      .append('text')
+      .attr('class', 'edge-label')
+      .attr('x', d => (d.source.x + d.target.x) / 2)
+      .attr('y', d => (d.source.y + d.target.y) / 2 - 5)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '10px')
+      .attr('fill', d => {
+        if (d.target.data.id === currentNodeId) return '#1976d2';
+        return '#888';
+      })
+      .attr('font-weight', d => d.target.data.id === currentNodeId ? 'bold' : 'normal')
+      .text(d => d.target.data.value === '(' ? '添加 (' : '添加 )');
 
     // 状态指示器（小图标）
     nodeGroups.filter(d => d.data.status === 'complete' || d.data.status === 'valid')

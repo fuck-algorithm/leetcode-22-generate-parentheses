@@ -2,105 +2,254 @@ import React from 'react';
 
 export const styles: Record<string, React.CSSProperties> = {
   container: {
-    padding: '12px',
     backgroundColor: '#fff',
     borderRadius: '8px',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    marginBottom: '12px'
+    overflow: 'hidden',
+    fontSize: '11px',
   },
-  header: {
+  mainHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '8px 12px',
+    backgroundColor: '#1976d2',
+    color: '#fff',
+  },
+  mainIcon: {
+    fontSize: '14px',
+  },
+  mainTitle: {
+    fontWeight: 600,
+    fontSize: '13px',
+  },
+  // 简洁概要样式
+  summaryBox: {
+    display: 'flex',
+    gap: '4px',
+    padding: '8px',
+    borderBottom: '1px solid #eee',
+  },
+  summaryItem: {
+    flex: 1,
+    textAlign: 'center',
+    padding: '4px',
+    backgroundColor: '#f5f5f5',
+    borderRadius: '4px',
+  },
+  summaryLabel: {
+    display: 'block',
+    fontSize: '9px',
+    color: '#888',
+    marginBottom: '2px',
+  },
+  summaryValue: {
+    display: 'block',
+    fontSize: '12px',
+    fontWeight: 600,
+    color: '#1976d2',
+  },
+  // 规则预览
+  rulesPreview: {
+    padding: '8px',
+    borderBottom: '1px solid #eee',
+  },
+  rulePreviewItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    padding: '2px 0',
+    fontSize: '10px',
+    color: '#555',
+  },
+  ruleIcon: {
+    fontSize: '10px',
+  },
+  // 详情按钮
+  detailButton: {
+    width: '100%',
+    padding: '8px 12px',
+    border: 'none',
+    backgroundColor: '#e3f2fd',
+    color: '#1976d2',
+    fontSize: '11px',
+    fontWeight: 500,
+    cursor: 'pointer',
+    transition: 'background-color 0.2s',
+  },
+  // 当前状态
+  currentAction: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '6px 10px',
+    borderTop: '1px solid #eee',
+    transition: 'background-color 0.3s',
+  },
+  actionIcon: {
+    fontSize: '12px',
+  },
+  actionText: {
+    fontSize: '10px',
+    fontWeight: 500,
+  },
+  // 弹窗样式
+  modalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: '12px',
+    width: '90%',
+    maxWidth: '600px',
+    maxHeight: '80vh',
+    overflow: 'hidden',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+  },
+  modalHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    cursor: 'pointer',
-    userSelect: 'none'
+    padding: '16px 20px',
+    backgroundColor: '#1976d2',
+    color: '#fff',
   },
-  title: {
-    margin: 0,
+  modalTitle: {
+    fontSize: '16px',
+    fontWeight: 600,
+  },
+  closeButton: {
+    background: 'none',
+    border: 'none',
+    color: '#fff',
+    fontSize: '18px',
+    cursor: 'pointer',
+    padding: '4px 8px',
+    borderRadius: '4px',
+  },
+  modalBody: {
+    padding: '20px',
+    overflowY: 'auto',
+    maxHeight: 'calc(80vh - 60px)',
+  },
+  modalSection: {
+    marginBottom: '24px',
+  },
+  modalSectionTitle: {
+    margin: '0 0 12px 0',
     fontSize: '14px',
     fontWeight: 600,
     color: '#333',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px'
   },
-  toggleIcon: {
-    fontSize: '12px',
-    color: '#666',
-    transition: 'transform 0.2s'
-  },
-  content: {
-    marginTop: '12px',
-    fontSize: '13px',
-    lineHeight: 1.6,
-    color: '#444'
-  },
-  section: {
-    marginBottom: '12px'
-  },
-  sectionTitle: {
-    fontWeight: 600,
-    color: '#1976d2',
-    marginBottom: '6px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px'
-  },
-  paragraph: {
-    margin: '0 0 8px 0',
-    paddingLeft: '4px'
-  },
-  highlight: {
+  // 核心思想
+  ideaBox: {
     backgroundColor: '#e3f2fd',
-    padding: '2px 6px',
-    borderRadius: '3px',
-    fontFamily: 'Consolas, Monaco, monospace',
-    fontSize: '12px'
+    borderRadius: '8px',
+    padding: '12px',
+    marginBottom: '12px',
   },
-  keyPoint: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    gap: '8px',
-    padding: '8px',
-    backgroundColor: '#f5f5f5',
-    borderRadius: '6px',
-    marginBottom: '8px'
-  },
-  keyPointIcon: {
+  ideaText: {
+    margin: '0 0 8px 0',
     fontSize: '14px',
-    flexShrink: 0
+    color: '#1565c0',
   },
-  keyPointText: {
-    flex: 1
+  ideaSubtext: {
+    margin: 0,
+    fontSize: '12px',
+    color: '#1976d2',
+    lineHeight: 1.5,
   },
-  formula: {
+  analogyBox: {
+    backgroundColor: '#fff3e0',
+    borderRadius: '8px',
+    padding: '12px',
+    borderLeft: '3px solid #ff9800',
+  },
+  analogyTitle: {
+    fontWeight: 600,
+    marginBottom: '8px',
+    color: '#e65100',
+    fontSize: '12px',
+  },
+  analogyText: {
+    margin: 0,
+    fontSize: '12px',
+    color: '#f57c00',
+    lineHeight: 1.6,
+  },
+  // 规则项
+  ruleItem: {
+    padding: '10px 12px',
+    marginBottom: '8px',
+    borderRadius: '6px',
+    borderLeft: '3px solid #ddd',
+    backgroundColor: '#f9f9f9',
+  },
+  ruleHeader: {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    padding: '8px 12px',
-    backgroundColor: '#fff3e0',
-    borderRadius: '6px',
-    fontFamily: 'Consolas, Monaco, monospace',
-    fontSize: '12px',
-    marginTop: '8px'
+    marginBottom: '6px',
   },
-  stepsContainer: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '6px'
-  },
-  step: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    gap: '8px',
-    padding: '6px 8px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '4px',
-    borderLeft: '3px solid #1976d2'
-  },
-  stepNumber: {
+  ruleNumber: {
     width: '20px',
     height: '20px',
+    borderRadius: '50%',
+    backgroundColor: '#9e9e9e',
+    color: '#fff',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '11px',
+    fontWeight: 600,
+  },
+  ruleTitle: {
+    fontWeight: 600,
+    fontSize: '13px',
+  },
+  ruleDesc: {
+    margin: '0 0 6px 0',
+    fontSize: '12px',
+    color: '#666',
+    paddingLeft: '28px',
+  },
+  ruleCode: {
+    display: 'block',
+    backgroundColor: '#263238',
+    color: '#80cbc4',
+    padding: '4px 8px',
+    borderRadius: '4px',
+    fontSize: '11px',
+    fontFamily: 'Consolas, monospace',
+    marginLeft: '28px',
+  },
+  // 流程图
+  flowChart: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+  },
+  flowStep: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    padding: '8px 10px',
+    borderRadius: '6px',
+    border: '1px solid #ddd',
+    backgroundColor: '#f5f5f5',
+  },
+  flowStepNum: {
+    width: '22px',
+    height: '22px',
     borderRadius: '50%',
     backgroundColor: '#1976d2',
     color: '#fff',
@@ -109,30 +258,62 @@ export const styles: Record<string, React.CSSProperties> = {
     justifyContent: 'center',
     fontSize: '11px',
     fontWeight: 600,
-    flexShrink: 0
+    flexShrink: 0,
   },
-  stepText: {
-    flex: 1,
-    fontSize: '12px'
-  },
-  legendContainer: {
+  flowStepContent: {
     display: 'flex',
-    flexWrap: 'wrap' as const,
+    flexDirection: 'column',
+    gap: '2px',
+  },
+  flowStepText: {
+    fontSize: '12px',
+    fontWeight: 500,
+  },
+  flowStepDetail: {
+    fontSize: '10px',
+    color: '#888',
+    fontFamily: 'Consolas, monospace',
+  },
+  flowArrow: {
+    textAlign: 'center',
+    color: '#bbb',
+    fontSize: '12px',
+  },
+  // 树形理解
+  treeExplain: {
+    marginBottom: '12px',
+  },
+  treeText: {
+    margin: '0 0 8px 0',
+    fontSize: '12px',
+    color: '#555',
+    lineHeight: 1.5,
+    paddingLeft: '8px',
+    borderLeft: '2px solid #4CAF50',
+  },
+  statsBox: {
+    display: 'flex',
     gap: '8px',
-    marginTop: '8px'
+    flexWrap: 'wrap',
   },
-  legendItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '4px',
-    fontSize: '11px',
-    padding: '4px 8px',
+  statItem: {
+    flex: 1,
+    minWidth: '70px',
     backgroundColor: '#f5f5f5',
-    borderRadius: '4px'
+    borderRadius: '6px',
+    padding: '8px',
+    textAlign: 'center',
   },
-  legendDot: {
-    width: '12px',
-    height: '12px',
-    borderRadius: '50%'
-  }
+  statLabel: {
+    display: 'block',
+    fontSize: '10px',
+    color: '#888',
+    marginBottom: '4px',
+  },
+  statValue: {
+    display: 'block',
+    fontSize: '18px',
+    fontWeight: 600,
+    color: '#1976d2',
+  },
 };

@@ -15,24 +15,20 @@ export function StatePanel({
 }: StatePanelProps) {
   return (
     <div style={styles.container}>
-      <h3 style={styles.title}>当前状态</h3>
-      <div style={styles.content}>
-        <div style={styles.row}>
-          <span style={styles.label}>当前字符串:</span>
-          <span style={styles.value}>{currentPath || '(空)'}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.label}>剩余左括号:</span>
-          <span style={styles.value}>{leftCount}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.label}>剩余右括号:</span>
-          <span style={styles.value}>{rightCount}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.label}>步骤:</span>
-          <span style={styles.value}>{currentStep + 1} / {totalSteps}</span>
-        </div>
+      <div style={styles.pathRow}>
+        <span style={styles.pathLabel}>当前:</span>
+        <span style={styles.pathValue}>{currentPath || 'ε'}</span>
+      </div>
+      <div style={styles.statsRow}>
+        <span style={styles.stat}>
+          <span style={styles.statLabel}>左(</span>
+          <span style={styles.statValue}>{leftCount}</span>
+        </span>
+        <span style={styles.stat}>
+          <span style={styles.statLabel}>右)</span>
+          <span style={styles.statValue}>{rightCount}</span>
+        </span>
+        <span style={styles.step}>{currentStep + 1}/{totalSteps}</span>
       </div>
     </div>
   );
@@ -58,32 +54,49 @@ export function getStatePanelValues(step: { currentString: string; leftRemaining
 
 const styles: Record<string, React.CSSProperties> = {
   container: {
-    padding: '12px',
+    padding: '10px 12px',
     backgroundColor: '#fff',
     borderRadius: '8px',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
   },
-  title: {
-    margin: '0 0 12px 0',
-    fontSize: '14px',
+  pathRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    marginBottom: '6px',
+  },
+  pathLabel: {
+    color: '#666',
+    fontSize: '12px',
+  },
+  pathValue: {
+    fontFamily: 'monospace',
+    fontSize: '16px',
     fontWeight: 600,
-    color: '#333'
+    color: '#1976d2',
+    letterSpacing: '2px',
   },
-  content: {
+  statsRow: {
     display: 'flex',
-    flexDirection: 'column',
-    gap: '8px'
+    alignItems: 'center',
+    gap: '12px',
+    fontSize: '12px',
   },
-  row: {
+  stat: {
     display: 'flex',
-    justifyContent: 'space-between',
-    fontSize: '13px'
+    alignItems: 'center',
+    gap: '4px',
   },
-  label: {
-    color: '#666'
+  statLabel: {
+    color: '#888',
   },
-  value: {
-    fontWeight: 500,
-    fontFamily: 'monospace'
-  }
+  statValue: {
+    fontWeight: 600,
+    color: '#333',
+  },
+  step: {
+    marginLeft: 'auto',
+    color: '#888',
+    fontSize: '11px',
+  },
 };
